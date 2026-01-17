@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Hub | Admin Dashboard</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Ionicons for Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+
+    <!-- Login Overlay -->
+    <div id="login-overlay">
+        <div class="glass-card" style="max-width: 400px; text-align: center;">
+            <h2><ion-icon name="lock-closed-outline" style="color: var(--primary-color)"></ion-icon> Admin Access</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Please enter the password to view responses.</p>
+            <input type="password" id="admin-password" class="form-control" placeholder="Password"
+                style="text-align: center; margin-bottom: 1rem;">
+            <button onclick="checkPassword()" class="btn-primary" style="width: 100%;">Unlock</button>
+            <p id="error-msg"
+                style="color: #ff6b6b; margin-top: 1rem; font-size: 0.9rem; opacity: 0; transition: opacity 0.3s;">
+                Incorrect Password</p>
+        </div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2" style="right: auto; left: 50%;"></div>
+
+    <nav>
+        <div class="logo">Feedback<span style="color:var(--primary-color)">Hub</span></div>
+        <div class="nav-links">
+            <a href="index.html">Submit</a>
+            <a href="admin.html" style="color:var(--secondary-color)">View Responses</a>
+        </div>
+    </nav>
+
+    <div class="container" id="admin-content"
+        style="display: block; padding-top: 2rem; filter: blur(10px); pointer-events: none;">
+        <h1 style="text-align: center;">Feedback Dashboard</h1>
+        <p class="subtitle" style="text-align: center;">Real-time insights from Google Sheets</p>
+
+        <div class="dashboard-grid">
+
+            <!-- Data Visualization (Full Width) -->
+            <div class="glass-card" style="grid-column: 1 / -1; max-width: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2>Live Responses</h2>
+                    <a href="https://docs.google.com/spreadsheets" target="_blank" class="btn-primary"
+                        style="font-size: 0.8rem;">Open in Sheets <ion-icon name="open-outline"></ion-icon></a>
+                </div>
+
+                <div class="chart-container"
+                    style="width: 100%; height: 500px; overflow: hidden; border-radius: 10px; border: 1px solid var(--glass-border);">
+                    <iframe
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQoR9WL0sDwZ3kzXd5ExE9jp8RAkt2AlLs_SiCq_D_p77UU7IAIpdLr8VSbwE0P21-w3Nx-R-ZHAz88/pubhtml?gid=1131597294&amp;single=true&amp;widget=true&amp;headers=false"
+                        style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Simple Client-Side Auth (Not Secure for sensitive data, but prevents casual access)
+        function checkPassword() {
+            const input = document.getElementById('admin-password').value;
+            const overlay = document.getElementById('login-overlay');
+            const content = document.getElementById('admin-content');
+            const errorMsg = document.getElementById('error-msg');
+
+            // Hardcoded password: 'admin'
+            if (input === 'admin123') {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    content.style.filter = 'none';
+                    content.style.pointerEvents = 'auto';
+                }, 300);
+            } else {
+                errorMsg.style.opacity = '1';
+                setTimeout(() => {
+                    errorMsg.style.opacity = '0';
+                }, 2000);
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('admin-password').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
